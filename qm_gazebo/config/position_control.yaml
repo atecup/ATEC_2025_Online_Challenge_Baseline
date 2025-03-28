@@ -1,0 +1,48 @@
+# Publish all joint states -----------------------------------
+joint_state_controller:
+  type: joint_state_controller/JointStateController
+  publish_rate: 1000
+
+
+joint_1_position_controller:
+  joint: arm_joint1
+  pid:
+    d: 8.0
+    i: 0
+    p: 5000
+  type: effort_controllers/JointPositionController
+joint_2_position_controller:
+  joint: arm_joint2
+  pid:
+    d: 8.0
+    i: 0
+    p: 5000
+  type: effort_controllers/JointPositionController
+joint_3_position_controller:
+  joint: arm_joint3
+  pid:
+    d: 8.0
+    i: 0
+    p: 5000
+  type: effort_controllers/JointPositionController
+joint_4_position_controller:
+  joint: arm_joint4
+  pid:
+    d: 0.1
+    i: 0
+    p: 2500
+  type: effort_controllers/JointPositionController
+joint_5_position_controller:
+  joint: arm_joint5
+  pid:
+    d: 0.5 
+    i: 0
+    p: 500 
+  type: effort_controllers/JointPositionController
+joint_6_position_controller:
+  joint: arm_joint6
+  pid:
+    d: 0
+    i: 0
+    p: 100
+  type: effort_controllers/JointPositionController

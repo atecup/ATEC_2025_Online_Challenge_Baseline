@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<robot name="a1x" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:include filename="$(find qm_description)/urdf/manipulator/a1x.urdf"/>
+    <xacro:include filename="$(find qm_description)/urdf/manipulator/a1x_transmission.xacro"/>
+    <xacro:include filename="$(find qm_description)/urdf/manipulator/a1x_gazebo.xacro"/>
+
+  <!-- for gazebo -->
+  <!-- <link name="world"/>
+  
+  <joint name="connect_root_and_world" type="fixed">
+    <child link="base_link" />
+    <parent link="world" />
+    <origin xyz="0 0 0" rpy="0 0 0" />    
+  </joint>  -->
+
+  <!-- end effector -->
+  <link name="a1x_end_effector"/>
+  <joint name="a1x_joint_end_effector" type="fixed">
+    <child link="a1x_end_effector" />
+    <parent link="gripper_link" />
+    <origin xyz="0 0 0" rpy="0 0 0" />    
+  </joint>  
+
+</robot>

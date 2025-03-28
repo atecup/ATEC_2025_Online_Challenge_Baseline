@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="qm">
+
+    <!-- qudraputed -->
+    <xacro:arg name="robot_type" default="sirius"/>
+    <xacro:include filename="$(find qm_description)/urdf/qudraputed/sirius_mid_v3.xacro" />
+
+    <!-- manipulatior -->
+    <xacro:include filename="$(find qm_description)/urdf/manipulator/a1x.xacro"/>
+
+    <joint name="manipulator_joint" type="fixed">
+        <parent link= "base" />
+        <child link = "base_link" />
+        <origin xyz="0.0 0.0 0.01" rpy="0.0 0.0 0.0" /> 
+    </joint>
+
+    <!-- ros_control plugin -->
+    <gazebo>
+        <plugin name="gazebo_ros_control" filename="libqm_hw_sim.so">
+            <robotNamespace>/</robotNamespace>
+            <robotParam>qm_description</robotParam>
+            <robotSimType>qm_gazebo/QMMpcHwSim</robotSimType>
+        </plugin>
+    </gazebo>
+    
+
+</robot>

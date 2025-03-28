@@ -1,0 +1,1024 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="robot">
+
+  <gazebo>
+    <plugin filename="libgazebo_ros_p3d.so" name="p3d_base_controller">
+      <alwaysOn>true</alwaysOn>
+      <updateRate>1000.0</updateRate>
+      <bodyName>base</bodyName>
+      <topicName>ground_truth/state</topicName>
+      <gaussianNoise>0</gaussianNoise>
+      <frameName>world</frameName>
+      <xyzOffsets>0 0 0</xyzOffsets>
+      <rpyOffsets>0 0 0</rpyOffsets>
+    </plugin>
+  </gazebo>
+  <gazebo reference="base">
+    <gravity>true</gravity>
+    <sensor name="imu_sensor" type="imu">
+      <always_on>true</always_on>
+      <update_rate>1000</update_rate>
+      <visualize>true</visualize>
+      <topic>__default_topic__</topic>
+      <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+        <topicName>imu</topicName>
+        <bodyName>base</bodyName>
+        <updateRateHZ>1000.0</updateRateHZ>
+        <gaussianNoise>0.0</gaussianNoise>
+        <xyzOffset>0 0 0</xyzOffset>
+        <rpyOffset>0 0 0</rpyOffset>
+        <frameName>base</frameName>
+        <initialOrientationAsReference>false</initialOrientationAsReference>
+      </plugin>
+      <pose>0 0 0 0 0 0</pose>
+    </sensor>
+  </gazebo>
+  <gazebo reference="LF_FOOT">
+    <mu1>0.6</mu1>
+    <mu2>0.6</mu2>
+    <self_collide>1</self_collide>
+    <material>Gazebo/DarkGrey</material>
+    <kp value="1000000.0"/>
+    <kd value="100.0"/>
+  </gazebo>
+  <gazebo reference="RF_FOOT">
+    <mu1>0.6</mu1>
+    <mu2>0.6</mu2>
+    <self_collide>1</self_collide>
+    <material>Gazebo/DarkGrey</material>
+    <kp value="1000000.0"/>
+    <kd value="100.0"/>
+  </gazebo>
+  <gazebo reference="LH_FOOT">
+    <mu1>0.6</mu1>
+    <mu2>0.6</mu2>
+    <self_collide>1</self_collide>
+    <material>Gazebo/DarkGrey</material>
+    <kp value="1000000.0"/>
+    <kd value="100.0"/>
+  </gazebo>
+  <gazebo reference="RH_FOOT">
+    <mu1>0.6</mu1>
+    <mu2>0.6</mu2>
+    <self_collide>1</self_collide>
+    <material>Gazebo/DarkGrey</material>
+    <kp value="1000000.0"/>
+    <kd value="100.0"/>
+  </gazebo>
+    <!-- Imu is fixed to the base link -->
+  <joint name="unitree_imu_joint" type="fixed">
+    <origin rpy="0. 0. 0." xyz="0. 0. 0."/>
+    <parent link="base"/>
+    <child link="unitree_imu"/>
+  </joint>
+  <!-- Imu link -->
+  <link name="unitree_imu">
+    <inertial>
+      <mass value="0.01"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <inertia ixx="0.000001" ixy="0" ixz="0" iyy="0.000001" iyz="0" izz="0.000001"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <box size="0.015 0.015 0.004"/>
+      </geometry>
+    </visual>
+    <material name="orange">
+      <color rgba="255 108 10 255"/>
+    </material>
+  </link>
+  <gazebo reference="unitree_imu">
+    <material>Gazebo/Orange</material>
+  </gazebo>
+  <gazebo reference="unitree_imu_joint">
+    <disableFixedJointLumping>true</disableFixedJointLumping>
+  </gazebo>
+  <link
+    name="base">
+    <inertial>
+      <origin
+        xyz="0.0446334 0.0002693 -0.0071156"
+        rpy="0 0 0" />
+      <mass
+        value="12.149" />
+      <inertia
+        ixx="0.048576"
+        ixy="-6.6872E-05"
+        ixz="-0.00070888"
+        iyy="0.75312"
+        iyz="-0.00029442"
+        izz="0.75287" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://qm_description/meshes/qudraputed/$(arg robot_type)/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.69804 0.69804 0.69804 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <!-- <mesh
+          filename="package://qm_description/meshes/qudraputed/$(arg robot_type)/base_link.STL" /> -->
+          <box size="0.48200 0.21200 0.11200"/>
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="difference_fr">
+    <inertial>
+      <origin
+        xyz="2.76255611664222E-07 0.00678503293494918 -7.28949860936864E-05"
+        rpy="0 0 0" />
+      <mass
+        value="1.83991949808533" />
+      <inertia
+        ixx="0.00159669309110301"
+        ixy="2.40619784879463E-08"
+        ixz="7.04421309599189E-10"
+        iyy="0.00218039802623776"
+        iyz="4.40635676564122E-06"
+        izz="0.0024879385019285" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://qm_description/meshes/qudraputed/$(arg robot_type)/difference_fr.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.698039215686274 0.698039215686274 0.698039215686274 1" />
+      </material>
+    </visual>
+    <!-- <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://qm_description/meshes/qudraputed/$(arg robot_type)/difference_fr.STL" />
+      </geometry>
+    </collision> -->
+  </link>
+  <joint
+    name="LF_HAA"
+    type="revolute">
+    <origin
+      xyz="0.31 0.05 0"
+      rpy="0 0 0" />
+    <parent
+      link="base" />
+    <child
+      link="difference_fr" />
+    <axis
+      xyz="1 0 0" />
+    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="35" lower="-0.7853981633974483" upper="0.7853981633974483" velocity="45"/>
+  </joint>
+  <link
+    name="thigh_fr">
+    <inertial>
+      <origin
+        xyz="7.80050075943617E-06 0.0767248973446957 -0.0853108309031699"
+        rpy="0 0 0" />
+      <mass
+        value="1.84491872524247" />
+      <inertia
+        ixx="0.0200731328399129"
+        ixy="-6.22649349293949E-06"
+        ixz="-1.64601580051228E-05"
+        iyy="0.0194374035044485"
+        iyz="0.00239094298924952"
+        izz="0.0025429424909611" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://qm_description/meshes/qudraputed/$(arg robot_type)/thigh_fr.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.698039215686274 0.698039215686274 0.698039215686274 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0.093 -0.135"
+        rpy="0 0 0" />
+      <geometry>
+        <box size="0.05 0.04 0.28"/>
+        <!-- <mesh
+          filename="package://qm_description/meshes/qudraputed/$(arg robot_type)/thigh_fr.STL" /> -->
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="LF_HFE"
+    type="revolute">
+    <origin
+      xyz="0 0.0415 0"
+      rpy="0 0 0" />
+    <parent
+      link="difference_fr" />
+    <child
+      link="thigh_fr" />
+    <axis
+      xyz="0 1 0" />
+    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="35" lower="-1.57" upper="1.57" velocity="45"/>
+  </joint>
+  <link
+    name="shank_fr">
+    <inertial>
+      <origin
+        xyz="-0.0379180936704923 -1.00823098490022E-05 -0.105367936306375"
+        rpy="0 0 0" />
+      <mass
+        value="0.46394589686281" />
+      <inertia
+        ixx="0.0062901661243756"
+        ixy="-1.45795386191276E-07"
+        ixz="-0.00134757706117442"
+        iyy="0.00676703648405088"
+        iyz="-7.33331301121544E-07"
+        izz="0.000568017818716471" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://qm_description/meshes/qudraputed/$(arg robot_type)/shank_fr.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.698039215686274 0.698039215686274 0.698039215686274 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="-0.055 0 -0.12"
+        rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.016" length="0.25"/>
+        <!-- <mesh
+          filename="package://qm_description/meshes/qudraputed/$(arg robot_type)/shank_fr.STL" /> -->
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="LF_KFE"
+    type="revolute">
+    <origin
+      xyz="0 0.0931000000000018 -0.270122814075178"
+      rpy="0 0 0" />
+    <parent
+      link="thigh_fr" />
+    <child
+      link="shank_fr" />
+    <axis
+      xyz="0 1 0" />
+    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="45" lower="-3.141592653589793" upper="1.17453292519943295" velocity="45"/>
+  </joint>
+  <link name="LF_FOOT">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <sphere radius="0.03"/>
+      </geometry>
+      <!-- <material name="orange"/> -->
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <sphere radius="0.03"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.06"/>
+      <inertia ixx="9.600000000000001e-04" ixy="0.0" ixz="0.0" iyy="9.600000000000001e-04" iyz="0.0" izz="9.600000000000001e-03"/>
+    </inertial>
+  </link>
+  <joint name="LF_FOOT_fixed_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="-0.07 0 -0.252"/>
+    <parent link="shank_fr"/>
+    <child link="LF_FOOT"/>
+  </joint>
+  <transmission name="LF_HAA_tran">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="LF_HAA">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="LF_HAA_motor">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+  <transmission name="LF_HFE_tran">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="LF_HFE">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="LF_HFE_motor">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+  <transmission name="LF_KFE_tran">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="LF_KFE">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="LF_KFE_motor">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+  <link
+    name="difference_br">
+    <inertial>
+      <origin
+        xyz="2.76255611664222E-07 0.0067850329349492 -7.28949860947287E-05"
+        rpy="0 0 0" />
+      <mass
+        value="1.83991949808533" />
+      <inertia
+        ixx="0.00159669309110302"
+        ixy="2.4061978488582E-08"
+        ixz="7.04421309293951E-10"
+        iyy="0.00218039802623776"
+        iyz="4.40635676564146E-06"
+        izz="0.0024879385019285" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://qm_description/meshes/qudraputed/$(arg robot_type)/difference_br.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.698039215686274 0.698039215686274 0.698039215686274 1" />
+      </material>
+    </visual>
+    <!-- <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://qm_description/meshes/qudraputed/$(arg robot_type)/difference_br.STL" />
+      </geometry>
+    </collision> -->
+  </link>
+  <joint
+    name="LH_HAA"
+    type="revolute">
+    <origin
+      xyz="-0.31 0.05 0"
+      rpy="0 0 0" />
+    <parent
+      link="base" />
+    <child
+      link="difference_br" />
+    <axis
+      xyz="1 0 0" />
+    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="35" lower="-0.7853981633974483" upper="0.7853981633974483" velocity="45"/>
+  </joint>
+  <link
+    name="thigh_br">
+    <inertial>
+      <origin
+        xyz="7.80050034682178E-06 0.0767248973447084 -0.0853108309031707"
+        rpy="0 0 0" />
+      <mass
+        value="1.84491872524246" />
+      <inertia
+        ixx="0.0200731328399129"
+        ixy="-6.22649349294517E-06"
+        ixz="-1.64601580051122E-05"
+        iyy="0.0194374035044485"
+        iyz="0.00239094298924952"
+        izz="0.00254294249096109" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://qm_description/meshes/qudraputed/$(arg robot_type)/thigh_br.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.698039215686274 0.698039215686274 0.698039215686274 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0.093 -0.135"
+        rpy="0 0 0" />
+      <geometry>
+        <box size="0.05 0.04 0.28"/>
+        <!-- <mesh
+          filename="package://qm_description/meshes/qudraputed/$(arg robot_type)/thigh_br.STL" /> -->
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="LH_HFE"
+    type="revolute">
+    <origin
+      xyz="0 0.0414999999974441 0"
+      rpy="0 0 0" />
+    <parent
+      link="difference_br" />
+    <child
+      link="thigh_br" />
+    <axis
+      xyz="0 1 0" />
+    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="35" lower="-1.57" upper="1.57" velocity="45"/>
+  </joint>
+  <link
+    name="shank_br">
+    <inertial>
+      <origin
+        xyz="0.0379180936765431 1.00823142355488E-05 -0.105367936359481"
+        rpy="0 0 0" />
+      <mass
+        value="0.463945897140413" />
+      <inertia
+        ixx="0.00629016612668043"
+        ixy="-1.45795411298519E-07"
+        ixz="0.00134757706144971"
+        iyy="0.00676703648637542"
+        iyz="7.33331493810339E-07"
+        izz="0.000568017818767203" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://qm_description/meshes/qudraputed/$(arg robot_type)/shank_br.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.698039215686274 0.698039215686274 0.698039215686274 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0.055 0 -0.12"
+        rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.016" length="0.25"/>
+        <!-- <mesh
+          filename="package://qm_description/meshes/qudraputed/$(arg robot_type)/shank_br.STL" /> -->
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="LH_KFE"
+    type="revolute">
+    <origin
+      xyz="0 0.0931000000000196 -0.270122814075249"
+      rpy="0 0 0" />
+    <parent
+      link="thigh_br" />
+    <child
+      link="shank_br" />
+    <axis
+      xyz="0 1 0" />
+    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="45" lower="-1.17453292519943295" upper="3.141592653589793" velocity="45"/>
+  </joint>
+  <link name="LH_FOOT">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <sphere radius="0.03"/>
+      </geometry>
+      <!-- <material name="orange"/> -->
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <sphere radius="0.03"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.06"/>
+      <inertia ixx="9.600000000000001e-04" ixy="0.0" ixz="0.0" iyy="9.600000000000001e-04" iyz="0.0" izz="9.600000000000001e-03"/>
+    </inertial>
+  </link>
+  <joint name="LH_FOOT_fixed_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0.07 0 -0.252"/>
+    <parent link="shank_br"/>
+    <child link="LH_FOOT"/>
+  </joint>
+  <transmission name="LH_HAA_tran">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="LH_HAA">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="LH_HAA_motor">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+  <transmission name="LH_HFE_tran">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="LH_HFE">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="LH_HFE_motor">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+  <transmission name="LH_KFE_tran">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="LH_KFE">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="LH_KFE_motor">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+  <link
+    name="difference_fl">
+    <inertial>
+      <origin
+        xyz="-2.74870503469415E-07 -0.00678503161175874 -7.28954687522767E-05"
+        rpy="0 0 0" />
+      <mass
+        value="1.83991942523528" />
+      <inertia
+        ixx="0.00159669300620188"
+        ixy="2.40834466841156E-08"
+        ixz="-6.36563017347744E-10"
+        iyy="0.00218039794501133"
+        iyz="-4.40637299692243E-06"
+        izz="0.00248793843492296" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://qm_description/meshes/qudraputed/$(arg robot_type)/difference_fl.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.698039215686274 0.698039215686274 0.698039215686274 1" />
+      </material>
+    </visual>
+    <!-- <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://qm_description/meshes/qudraputed/$(arg robot_type)/difference_fl.STL" />
+      </geometry>
+    </collision> -->
+  </link>
+  <joint
+    name="RF_HAA"
+    type="revolute">
+    <origin
+      xyz="0.31 -0.05 0"
+      rpy="0 0 0" />
+    <parent
+      link="base" />
+    <child
+      link="difference_fl" />
+    <axis
+      xyz="1 0 0" />
+    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="35" lower="-0.7853981633974483" upper="0.7853981633974483" velocity="45"/>
+  </joint>
+  <link
+    name="thigh_fl">
+    <inertial>
+      <origin
+        xyz="-7.79361510067078E-06 -0.0767249033075051 -0.0853108141844979"
+        rpy="0 0 0" />
+      <mass
+        value="1.84491923543637" />
+      <inertia
+        ixx="0.0200731337773401"
+        ixy="-6.22617105712194E-06"
+        ixz="1.64593347132117E-05"
+        iyy="0.0194374045436634"
+        iyz="-0.00239094217884282"
+        izz="0.00254294323646131" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://qm_description/meshes/qudraputed/$(arg robot_type)/thigh_fl.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.698039215686274 0.698039215686274 0.698039215686274 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 -0.093 -0.135"
+        rpy="0 0 0" />
+      <geometry>
+        <box size="0.05 0.04 0.28"/>
+        <!-- <mesh
+          filename="package://qm_description/meshes/qudraputed/$(arg robot_type)/thigh_fl.STL" /> -->
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="RF_HFE"
+    type="revolute">
+    <origin
+      xyz="0 -0.0415000000000005 0"
+      rpy="0 0 0" />
+    <parent
+      link="difference_fl" />
+    <child
+      link="thigh_fl" />
+        <axis
+      xyz="0 1 0" />
+    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="35" lower="-1.57" upper="1.57" velocity="45"/>
+  </joint>
+  <link
+    name="shank_fl">
+    <inertial>
+      <origin
+        xyz="-0.0379180936720089 -1.00823109106252E-05 -0.105367936319631"
+        rpy="0 0 0" />
+      <mass
+        value="0.463945896932349" />
+      <inertia
+        ixx="0.00629016612495341"
+        ixy="-1.45795391992759E-07"
+        ixz="-0.0013475770612434"
+        iyy="0.00676703648463362"
+        iyz="-7.33331348046914E-07"
+        izz="0.00056801781872918" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://qm_description/meshes/qudraputed/$(arg robot_type)/shank_fl.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.698039215686274 0.698039215686274 0.698039215686274 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="-0.055 0 -0.12"
+        rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.016" length="0.25"/>
+        <!-- <mesh
+          filename="package://qm_description/meshes/qudraputed/$(arg robot_type)/shank_fl.STL" /> -->
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="RF_KFE"
+    type="revolute">
+    <origin
+      xyz="0 -0.0931000000000001 -0.270122814075249"
+      rpy="0 0 0" />
+    <parent
+      link="thigh_fl" />
+    <child
+      link="shank_fl" />
+    <axis
+      xyz="0 1 0" />
+    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="45" lower="-3.141592653589793" upper="1.17453292519943295" velocity="45"/>
+  </joint>
+  <link name="RF_FOOT">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <sphere radius="0.03"/>
+      </geometry>
+      <!-- <material name="orange"/> -->
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <sphere radius="0.03"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.06"/>
+      <inertia ixx="9.600000000000001e-04" ixy="0.0" ixz="0.0" iyy="9.600000000000001e-04" iyz="0.0" izz="9.600000000000001e-03"/>
+    </inertial>
+  </link>
+  <joint name="RF_FOOT_fixed_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="-0.07 0 -0.252"/>
+    <parent link="shank_fl"/>
+    <child link="RF_FOOT"/>
+  </joint>
+  <transmission name="RF_HAA_tran">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="RF_HAA">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="RF_HAA_motor">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+  <transmission name="RF_HFE_tran">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="RF_HFE">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="RF_HFE_motor">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+  <transmission name="RF_KFE_tran">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="RF_KFE">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="RF_KFE_motor">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+  <link
+    name="difference_bl">
+    <inertial>
+      <origin
+        xyz="2.76255611664222E-07 0.0067850329349492 -7.28949860947287E-05"
+        rpy="0 0 0" />
+      <mass
+        value="1.83991949808533" />
+      <inertia
+        ixx="0.00159669309110302"
+        ixy="2.4061978488582E-08"
+        ixz="7.04421309293951E-10"
+        iyy="0.00218039802623776"
+        iyz="4.40635676564146E-06"
+        izz="0.0024879385019285" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://qm_description/meshes/qudraputed/$(arg robot_type)/difference_bl.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <!-- <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://qm_description/meshes/qudraputed/$(arg robot_type)/difference_bl.STL" />
+      </geometry>
+    </collision> -->
+  </link>
+  <joint
+    name="RH_HAA"
+    type="revolute">
+    <origin
+      xyz="-0.31 -0.05 0"
+      rpy="0 0 0" />
+    <parent
+      link="base" />
+    <child
+      link="difference_bl" />
+    <axis
+      xyz="1 0 0" />
+    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="35" lower="-0.7853981633974483" upper="0.7853981633974483" velocity="45"/>
+  </joint>
+  <link
+    name="thigh_bl">
+    <inertial>
+      <origin
+        xyz="-7.79361510050425E-06 -0.0767249033075054 -0.0853108141844979"
+        rpy="0 0 0" />
+      <mass
+        value="1.84491923543638" />
+      <inertia
+        ixx="0.02007313377734"
+        ixy="-6.22617105712692E-06"
+        ixz="1.64593347131925E-05"
+        iyy="0.0194374045436634"
+        iyz="-0.00239094217884283"
+        izz="0.00254294323646131" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://qm_description/meshes/qudraputed/$(arg robot_type)/thigh_bl.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.698039215686274 0.698039215686274 0.698039215686274 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 -0.093 -0.135"
+        rpy="0 0 0" />
+      <geometry>
+        <box size="0.05 0.04 0.28"/>
+        <!-- <mesh
+          filename="package://qm_description/meshes/qudraputed/$(arg robot_type)/thigh_bl.STL" /> -->
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="RH_HFE"
+    type="revolute">
+    <origin
+      xyz="0 -0.041500000002547 0"
+      rpy="0 0 0" />
+    <parent
+      link="difference_bl" />
+    <child
+      link="thigh_bl" />
+    <axis
+      xyz="0 1 0" />
+    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="35" lower="-1.57" upper="1.57" velocity="45"/>
+  </joint>
+  <link
+    name="shank_bl">
+    <inertial>
+      <origin
+        xyz="0.0379180936720101 1.00823110678883E-05 -0.105367936319638"
+        rpy="0 0 0" />
+      <mass
+        value="0.46394589693239" />
+      <inertia
+        ixx="0.00629016612495369"
+        ixy="-1.45795393960972E-07"
+        ixz="0.00134757706124343"
+        iyy="0.00676703648463389"
+        iyz="7.3333135362383E-07"
+        izz="0.000568017818729184" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://qm_description/meshes/qudraputed/$(arg robot_type)/shank_bl.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.698039215686274 0.698039215686274 0.698039215686274 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0.055 0 -0.12"
+        rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.016" length="0.25"/>
+        <!-- <mesh
+          filename="package://qm_description/meshes/qudraputed/$(arg robot_type)/shank_bl.STL" /> -->
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="RH_KFE"
+    type="revolute">
+    <origin
+      xyz="0 -0.0931000000000001 -0.270122814075249"
+      rpy="0 0 0" />
+    <parent
+      link="thigh_bl" />
+    <child
+      link="shank_bl" />
+    <axis
+      xyz="0 1 0" />
+    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="45" lower="-1.17453292519943295" upper="3.141592653589793" velocity="45"/>
+  </joint>
+  <link name="RH_FOOT">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <sphere radius="0.03"/>
+      </geometry>
+      <!-- <material name="orange"/> -->
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <sphere radius="0.03"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.06"/>
+      <inertia ixx="9.600000000000001e-04" ixy="0.0" ixz="0.0" iyy="9.600000000000001e-04" iyz="0.0" izz="9.600000000000001e-03"/>
+    </inertial>
+  </link>
+  <joint name="RH_FOOT_fixed_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0.07 0 -0.252"/>
+    <parent link="shank_bl"/>
+    <child link="RH_FOOT"/>
+  </joint>
+  <transmission name="RH_HAA_tran">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="RH_HAA">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="RH_HAA_motor">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+  <transmission name="RH_HFE_tran">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="RH_HFE">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="RH_HFE_motor">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+  <transmission name="RH_KFE_tran">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="RH_KFE">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="RH_KFE_motor">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+</robot>
