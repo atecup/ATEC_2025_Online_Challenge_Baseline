@@ -29,7 +29,7 @@ The quadruped robot, *Sirius*, is provided by [CUHK LRL](https://cuhkleggedrobot
 # Clone
 mkdir -p <catkin_ws_name>/src
 cd <catkin_ws_name>/src
-git clone https://github.com/CUHKSiriusLeggedRobotTeam/ATEC_2025_Online_Challenge_Baseline.git
+git clone https://github.com/atecup/ATEC_2025_Online_Challenge_Baseline.git
 
 # Build
 cd <catkin_ws_name>
