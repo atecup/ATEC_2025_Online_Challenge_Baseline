@@ -14,6 +14,8 @@
 
 This repository provides a baseline program for the ATEC2025 Online Challenge. The baseline aims to offer a clear starting point for participants to build upon, demonstrating the essential setup, algorithmic structures, and configuration required to participate in the challenge. The program implements whole-body motion planning and control for a quadruped robot with a manipulator, serving as a foundation for participants to develop and refine their strategies for optimal performance.
 
+**To learn more about the competition rules, check** [Atec2025_Online_Rules](https://atec-website-pub.oss-cn-beijing.aliyuncs.com/65380f35ad1069efc65b15ac02d152d952487733.mp4): 
+
 The quadruped robot, *Sirius*, is provided by [CUHK LRL](https://cuhkleggedrobotlab.github.io/), and the manipulator, *A1X*, is provided by [Galaxea](https://galaxea.ai/).
 
 ## Installation
